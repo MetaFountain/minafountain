@@ -1,16 +1,16 @@
-import { TestingAppChain } from "@proto-kit/sdk";
-import { method, PrivateKey } from "o1js";
-import { Balances } from "../../../src/runtime/modules/balances";
-import { log } from "@proto-kit/common";
-import { BalancesKey, TokenId, UInt64 } from "@proto-kit/library";
+import { TestingAppChain } from "@proto-kit/sdk"
+import { method, PrivateKey } from "o1js"
+import { Balances } from "../../../src/runtime/modules/balances"
+import { log } from "@proto-kit/common"
+import { BalancesKey, TokenId, UInt64 } from "@proto-kit/library"
 
-log.setLevel("ERROR");
+log.setLevel("ERROR")
 
 describe("balances", () => {
   it("should demonstrate how balances work", async () => {
     const appChain = TestingAppChain.fromRuntime({
       Balances,
-    });
+    })
 
     appChain.configurePartial({
       Runtime: {
@@ -18,31 +18,31 @@ describe("balances", () => {
           totalSupply: UInt64.from(10000),
         },
       },
-    });
+    })
 
-    await appChain.start();
+    await appChain.start()
 
-    const alicePrivateKey = PrivateKey.random();
-    const alice = alicePrivateKey.toPublicKey();
-    const tokenId = TokenId.from(0);
+    const alicePrivateKey = PrivateKey.random()
+    const alice = alicePrivateKey.toPublicKey()
+    const tokenId = TokenId.from(0)
 
-    appChain.setSigner(alicePrivateKey);
+    appChain.setSigner(alicePrivateKey)
 
-    const balances = appChain.runtime.resolve("Balances");
+    const balances = appChain.runtime.resolve("Balances")
 
     const tx1 = await appChain.transaction(alice, async () => {
-      await balances.addBalance(tokenId, alice, UInt64.from(1000));
-    });
+      await balances.addBalance(tokenId, alice, UInt64.from(1000))
+    })
 
-    await tx1.sign();
-    await tx1.send();
+    await tx1.sign()
+    await tx1.send()
 
-    const block = await appChain.produceBlock();
+    const block = await appChain.produceBlock()
 
-    const key = new BalancesKey({ tokenId, address: alice });
-    const balance = await appChain.query.runtime.Balances.balances.get(key);
+    const key = new BalancesKey({ tokenId, address: alice })
+    const balance = await appChain.query.runtime.Balances.balances.get(key)
 
-    expect(block?.transactions[0].status.toBoolean()).toBe(true);
-    expect(balance?.toBigInt()).toBe(1000n);
-  }, 1_000_000);
-});
+    expect(block?.transactions[0].status.toBoolean()).toBe(true)
+    expect(balance?.toBigInt()).toBe(1000n)
+  }, 1_000_000)
+})

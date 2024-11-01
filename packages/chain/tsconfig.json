@@ -17,7 +17,10 @@
     "alwaysStrict": true,
     "declarationMap": true,
     "strictFunctionTypes": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
   },
   "files": ["node_modules/jest-expect-message/types/index.d.ts"],
   "include": ["./src/**/*"],
