@@ -49,7 +49,7 @@ export const useBalancesStore = create<
       });
     },
     async faucet(client: Client, address: string) {
-      const balances = client.runtime.resolve("Balances");
+      const balances = client.runtime.resolve("Balances"); //doc: integrated the module
       const sender = PublicKey.fromBase58(address);
 
       const tx = await client.transaction(sender, async () => {
