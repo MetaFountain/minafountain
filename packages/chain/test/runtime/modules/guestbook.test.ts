@@ -27,7 +27,7 @@ describe("interaction", () => {
 
   it("should interact with the app-chain", async () => {
     const rating = UInt64.from(3)
-    const tx = await appChain.transaction(sender, () => {
+    const tx = await appChain.transaction(sender, async () => {
       guestBook.checkIn(rating)
     })
 
