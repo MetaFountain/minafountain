@@ -20,7 +20,7 @@ export class GuestBook extends RuntimeModule<Record<string, never>> {
   @state() public checkIns = StateMap.from(PublicKey, CheckIn)
 
   @runtimeMethod()
-  public async checkIn(rating: UInt64) {
+  public async checkIn(rating: UInt64): Promise<void> {
     assert(rating.lessThanOrEqual(UInt64.from(5)), "Maximum rating can be 5")
     const guest = this.transaction.sender.value
 
@@ -32,6 +32,6 @@ export class GuestBook extends RuntimeModule<Record<string, never>> {
       rating,
     })
 
-    this.checkIns.set(checkIn.guest, checkIn)
+    await this.checkIns.set(checkIn.guest, checkIn)
   }
 }
