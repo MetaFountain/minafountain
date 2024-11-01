@@ -23,7 +23,8 @@ export class GuestBook extends RuntimeModule<Record<string, never>> {
   public async checkIn(rating: UInt64) {
     assert(rating.lessThanOrEqual(UInt64.from(5)), "Maximum rating can be 5")
     const guest = this.transaction.sender.value
-    const createdAt = UInt64.from(this.network.block.height)
+
+    const createdAt = UInt64.from(this.network.block.height.toString())
     const checkIn = new CheckIn({
       guest,
       createdAt,
