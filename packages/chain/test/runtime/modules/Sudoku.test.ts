@@ -28,6 +28,8 @@ if (solution == undefined) throw Error("Devcon1: shouldnt happen")
 const signer = PrivateKey.random()
 const sender = signer.toPublicKey()
 
+console.log("sender: ", sender)
+
 describe("Sudoku", () => {
   let zkApp: Sudoku
 
@@ -100,7 +102,7 @@ describe("Sudoku", () => {
 
     await checkStatus()
 
-    const isSolved = await (await zkApp.isSolved.get()).value
+    const isSolved = (await zkApp.isSolved.get()).value
 
     assert(isSolved.equals(true), "the sudoku is solved")
 
