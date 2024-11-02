@@ -55,7 +55,7 @@ describe("Sudoku", () => {
 
   const checkStatus = async (tag = "status:") => {
     const status = await zkApp.isSolved.get()
-    console.log(tag, "is Solved=", status.toString())
+    console.log(tag, "is Solved=", status.value.toString())
   }
 
   it("submit wrong solution", async () => {
