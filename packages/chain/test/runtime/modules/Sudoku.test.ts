@@ -58,7 +58,7 @@ describe("Sudoku", () => {
 
   const checkStatus = async (tag = "status:") => {
     const sudokuHash = (await zkApp.sudokuHash.get()).value
-    console.log("sudokuhash", sudokuHash)
+    console.log("sudokuhash", sudokuHash.toString())
     const status = await zkApp.isSolved.get()
     console.log(tag, "is Solved=", status.value.toString())
   }
