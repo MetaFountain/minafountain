@@ -3,7 +3,7 @@ import { ModulesConfig } from "@proto-kit/common"
 
 import { Balances } from "./modules/balances"
 import { GuestBook } from "./modules/guestbook"
-import { Sudoku } from "./modules/Sudoku"
+import { Sudoku } from "./modules/sudoku"
 
 export const modules = VanillaRuntimeModules.with({
   Balances,
