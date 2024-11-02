@@ -22,7 +22,7 @@ export class ISudoku extends Struct({
 }
 
 @runtimeModule()
-export class Sudoku extends RuntimeModule {
+export class Sudoku extends RuntimeModule<ISudoku> {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
 
