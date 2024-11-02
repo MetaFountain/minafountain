@@ -100,6 +100,10 @@ describe("Sudoku", () => {
 
     await checkStatus()
 
+    const isSolved = await (await zkApp.isSolved.get()).value
+
+    assert(isSolved.equals(true), "the sudoku is solved")
+
     const solvedBy = (await zkApp.solvedBy.get()).value
 
     console.log("solved by: " + solvedBy.toBase58())
