@@ -1,15 +1,33 @@
+import {
+  AccountUpdate,
+  assert,
+  Field,
+  Mina,
+  PrivateKey,
+  PublicKey,
+  UInt32,
+} from "o1js"
+import { Sudoku, ISudoku } from "@src/runtime/modules/Sudoku"
+import { cloneSudoku, generateSudoku, solveSudoku } from "./Sudoku-lib.js"
+
 import { InMemorySigner } from "@proto-kit/sdk"
 import { UInt64 } from "@proto-kit/library"
 import { client as appChain } from "../../../src/environments/client.config"
-// import { client as appChain } from "@src/environments/client.config" //FIXME:
-import { PrivateKey } from "o1js"
-import { GuestBook } from "@src/runtime/modules/guestbook"
+
+type ZkApp = Sudoku
+
+const salt = Field.random()
+let number = 16
+
+const sudoku = generateSudoku(0.5)
+const solution = solveSudoku(sudoku)
+if (solution == undefined) throw Error("Devcon1: shouldnt happen")
 
 const signer = PrivateKey.random()
 const sender = signer.toPublicKey()
 
-describe("Guestbook", () => {
-  let guestBook: GuestBook
+describe("Sudoku", () => {
+  let zkApp: Sudoku
 
   beforeAll(async () => {
     await appChain.start()
@@ -23,13 +41,13 @@ describe("Guestbook", () => {
     const resolvedInMemorySigner = appChain.resolve("Signer") as InMemorySigner
     resolvedInMemorySigner.config = { signer }
 
-    guestBook = appChain.runtime.resolve("GuestBook")
+    zkApp = appChain.runtime.resolve("Sudoku")
   })
 
-  it("should interact with the app-chain", async () => {
+  it("should init/update", async () => {
     const rating = UInt64.from(3)
     const tx = await appChain.transaction(sender, async () => {
-      guestBook.checkIn(rating)
+      zkApp.update(ISudoku.from(sudoku))
     })
 
     await tx.sign()
