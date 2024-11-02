@@ -1,4 +1,4 @@
-import { RuntimeModule } from "@proto-kit/module"
+import { runtimeModule, RuntimeModule } from "@proto-kit/module"
 
 import { State, assert } from "@proto-kit/protocol"
 import { Balance, Balances as BaseBalances, TokenId } from "@proto-kit/library"
@@ -22,24 +22,27 @@ export class ISudoku extends Struct({
   }
 
   hash() {
-    return Poseidon.hash(this.value.flat())
+    return Poseidon.hash(this.value.flat())``
   }
 }
 
+@runtimeModule()
 export class Sudoku extends RuntimeModule {
-  @state() public sudokuHash = State<Field>()
-  @state() public isSolved = State<Bool>()
+  @state() public sudokuHash = State.from<Field>(Field)
+  @state() public isSolved = State.from<Bool>(Bool)
 
-  @method async init() {
+  async init() {
     super.init()
   }
 
-  @method async update(sudokuInstance: ISudoku) {
+  @runtimeMethod()
+  async update(sudokuInstance: ISudoku) {
     this.sudokuHash.set(sudokuInstance.hash())
     this.isSolved.set(Bool(false))
   }
 
-  @method async submitSolution(
+  @runtimeMethod()
+  public async submitSolution(
     sudokuInstance: ISudoku,
     solutionInstance: ISudoku
   ) {
