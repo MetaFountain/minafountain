@@ -25,7 +25,7 @@ export class ISudoku extends Struct({
 export class Sudoku extends RuntimeModule<Record<any, never>> {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
-  @state() public solvedBy = State<PublicKey>(PublicKey)
+  @state() public solvedBy = State.from<PublicKey>(PublicKey)
 
   public constructor() {
     super()
@@ -104,7 +104,7 @@ export class Sudoku extends RuntimeModule<Record<any, never>> {
       )
 
     await this.isSolved.set(Bool(true))
-    await this.solvedBy.set(this.sender.getUnconstrained())
+    await this.solvedBy.set(this.transaction.sender.value)
 
     function divmod(k: number, n: number) {
       let q = Math.floor(k / n)
