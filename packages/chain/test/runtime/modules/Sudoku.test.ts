@@ -44,7 +44,7 @@ describe("Sudoku", () => {
     zkApp = appChain.runtime.resolve("Sudoku")
   })
 
-  it("should init/update", async () => {
+  it("should update", async () => {
     const tx = await appChain.transaction(sender, async () => {
       zkApp.update(ISudoku.from(sudoku))
     })
