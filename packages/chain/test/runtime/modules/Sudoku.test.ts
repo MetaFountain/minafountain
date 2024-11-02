@@ -45,7 +45,6 @@ describe("Sudoku", () => {
   })
 
   it("should init/update", async () => {
-    const rating = UInt64.from(3)
     const tx = await appChain.transaction(sender, async () => {
       zkApp.update(ISudoku.from(sudoku))
     })
