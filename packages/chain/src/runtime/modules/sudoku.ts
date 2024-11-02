@@ -30,11 +30,11 @@ export class Sudoku extends RuntimeModule<Record<any, never>> {
     super()
   }
 
-  // @runtimeMethod()
-  // async update(sudokuInstance: ISudoku) {
-  //   this.isSolved.set(Bool(false))
-  //   this.sudokuHash.set(sudokuInstance.hash())
-  // }
+  @runtimeMethod()
+  async update(sudokuInstance: ISudoku) {
+    this.isSolved.set(Bool(false))
+    this.sudokuHash.set(sudokuInstance.hash())
+  }
 
   // @runtimeMethod()
   // public async submitSolution(
