@@ -26,10 +26,10 @@ export class Sudoku extends RuntimeModule<ISudoku> {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
 
-  public constructor() {
-    super()
-    this.isSolved.set(Bool(false))
-  }
+  // public constructor() {
+  //   super()
+  //   this.isSolved.set(Bool(false))
+  // }
 
   @runtimeMethod()
   async update(sudokuInstance: ISudoku) {
