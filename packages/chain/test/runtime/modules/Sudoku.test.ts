@@ -109,6 +109,6 @@ describe("Sudoku", () => {
       "submitted solution"
     )
 
-    assert(solvedBy.toBase58() === sender.toBase58(), "checked solver")
+    assert(solvedBy.equals(sender), "checked solver")
   })
 })
