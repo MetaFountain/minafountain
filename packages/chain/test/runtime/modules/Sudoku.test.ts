@@ -95,7 +95,7 @@ describe("Sudoku", () => {
 
     await checkStatus()
 
-    const solvedBy = await (await zkApp.solvedBy.get()).value
+    const solvedBy = (await zkApp.solvedBy.get()).value
 
     console.log("solved by: " + solvedBy.toBase58())
 

@@ -95,13 +95,10 @@ export class Sudoku extends RuntimeModule<Record<any, never>> {
       }
     }
 
-    let sudokuHash = await this.sudokuHash.get()
+    let sudokuHash = (await this.sudokuHash.get()).value
     sudokuInstance
       .hash()
-      .assertEquals(
-        sudokuHash.value,
-        "sudoku matches the one committed on-chain"
-      )
+      .assertEquals(sudokuHash, "sudoku matches the one committed on-chain")
 
     await this.isSolved.set(Bool(true))
     await this.solvedBy.set(this.transaction.sender.value)
