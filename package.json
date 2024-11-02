@@ -25,6 +25,7 @@
     "docker:build": "docker compose -f docker/docker-compose.yml build",
     "docker:up": "docker compose -f docker/docker-compose.yml up",
     "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "env:dev": "pnpm env:development",
     "env:development": "dotenv -e ./packages/chain/src/environments/development/.env -- pnpm",
     "env:inmemory": "dotenv -e ./packages/chain/src/environments/inmemory/.env -- pnpm",
     "env:sovereign": "dotenv -e ./packages/chain/src/environments/sovereign/.env -- pnpm"
