@@ -28,7 +28,7 @@ if (solution == undefined) throw Error("Devcon1: shouldnt happen")
 const signer = PrivateKey.random()
 const sender = signer.toPublicKey()
 
-console.log("sender: ", sender)
+console.log("sender: ", sender.toBase58())
 
 describe("Sudoku", () => {
   let zkApp: Sudoku
