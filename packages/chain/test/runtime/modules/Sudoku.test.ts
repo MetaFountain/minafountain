@@ -83,4 +83,26 @@ describe("Sudoku", () => {
       "failed as expected"
     )
   })
+
+  it("should submit correct solution", async () => {
+    const tx = await appChain.transaction(sender, async () => {
+      await zkApp.submitSolution(ISudoku.from(sudoku), ISudoku.from(solution))
+    })
+
+    await tx.sign()
+    await tx.send()
+
+    await checkStatus()
+
+    const solvedBy = await (await zkApp.solvedBy.get()).value
+
+    console.log("solved by: " + solvedBy.toBase58())
+
+    assert(
+      await (await zkApp.isSolved.get()).value.toBoolean(),
+      "submitted solution"
+    )
+
+    assert(solvedBy.toBase58() === sender.toBase58(), "checked solver")
+  })
 })
