@@ -1,4 +1,9 @@
-import { runtimeModule, RuntimeModule } from "@proto-kit/module"
+import {
+  runtimeMethod,
+  runtimeModule,
+  RuntimeModule,
+  state,
+} from "@proto-kit/module"
 
 import { State, assert } from "@proto-kit/protocol"
 import { Balance, Balances as BaseBalances, TokenId } from "@proto-kit/library"
@@ -6,12 +11,12 @@ import {
   Field,
   SmartContract,
   method,
-  Poseidon,
   Provable,
   Struct,
   Bool,
   PublicKey,
   fetchAccount,
+  Poseidon,
 } from "o1js"
 
 export class ISudoku extends Struct({
@@ -22,7 +27,7 @@ export class ISudoku extends Struct({
   }
 
   hash() {
-    return Poseidon.hash(this.value.flat())``
+    return Poseidon.hash(this.value.flat())
   }
 }
 
@@ -31,8 +36,8 @@ export class Sudoku extends RuntimeModule {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
 
-  async init() {
-    super.init()
+  init() {
+    this.isSolved.set(Bool(false))
   }
 
   @runtimeMethod()
@@ -99,10 +104,13 @@ export class Sudoku extends RuntimeModule {
       }
     }
 
-    let sudokuHash = this.sudokuHash.getAndRequireEquals()
+    let sudokuHash = await this.sudokuHash.get()
     sudokuInstance
       .hash()
-      .assertEquals(sudokuHash, "sudoku matches the one committed on-chain")
+      .assertEquals(
+        sudokuHash.value,
+        "sudoku matches the one committed on-chain"
+      )
 
     this.isSolved.set(Bool(true))
 
