@@ -36,7 +36,8 @@ export class Sudoku extends RuntimeModule<Record<string, never>> {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
 
-  init() {
+  public constructor() {
+    super()
     this.isSolved.set(Bool(false))
   }
 
