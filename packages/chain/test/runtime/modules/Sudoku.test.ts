@@ -21,6 +21,7 @@ let number = 16
 
 const sudoku = generateSudoku(0.5)
 const solution = solveSudoku(sudoku)
+console.log("sudoku: ", sudoku)
 console.log("solution: " + solution)
 if (solution == undefined) throw Error("Devcon1: shouldnt happen")
 
