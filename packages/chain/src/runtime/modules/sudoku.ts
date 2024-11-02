@@ -29,11 +29,11 @@ export class Sudoku extends RuntimeModule<Record<any, never>> {
 
   public constructor() {
     super()
+    this.isSolved.set(Bool(false))
   }
 
   @runtimeMethod()
   public async update(sudokuInstance: ISudoku): Promise<void> {
-    await this.isSolved.set(Bool(false))
     await this.sudokuHash.set(sudokuInstance.hash())
   }
 
