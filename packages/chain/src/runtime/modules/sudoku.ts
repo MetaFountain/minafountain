@@ -7,17 +7,7 @@ import {
 
 import { State, assert } from "@proto-kit/protocol"
 import { Balance, Balances as BaseBalances, TokenId } from "@proto-kit/library"
-import {
-  Field,
-  SmartContract,
-  method,
-  Provable,
-  Struct,
-  Bool,
-  PublicKey,
-  fetchAccount,
-  Poseidon,
-} from "o1js"
+import { Field, Provable, Struct, Bool, Poseidon } from "o1js"
 
 export class ISudoku extends Struct({
   value: Provable.Array(Provable.Array(Field, 9), 9),
@@ -32,7 +22,7 @@ export class ISudoku extends Struct({
 }
 
 @runtimeModule()
-export class Sudoku extends RuntimeModule<Record<string, never>> {
+export class Sudoku extends RuntimeModule {
   @state() public sudokuHash = State.from<Field>(Field)
   @state() public isSolved = State.from<Bool>(Bool)
 
