@@ -52,4 +52,35 @@ describe("Sudoku", () => {
     await tx.sign()
     await tx.send()
   })
+
+  const checkStatus = async (tag = "status:") => {
+    const status = await zkApp.isSolved.get()
+    console.log(tag, "is Solved=", status.toString())
+  }
+
+  it("submit wrong solution", async () => {
+    const wrongSolution = await cloneSudoku(solution)
+    wrongSolution[0][0] = (wrongSolution[0][0] % 9) + 1
+
+    try {
+      const tx = await appChain.transaction(sender, async () => {
+        await zkApp.submitSolution(
+          ISudoku.from(sudoku),
+          ISudoku.from(wrongSolution)
+        )
+      })
+
+      await tx.sign()
+      await tx.send()
+    } catch {
+      console.log("failed as expected")
+    }
+
+    await checkStatus()
+
+    assert(
+      !(await zkApp.isSolved.get()).value.toBoolean(),
+      "failed as expected"
+    )
+  })
 })
