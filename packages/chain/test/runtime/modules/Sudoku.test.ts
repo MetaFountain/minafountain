@@ -90,9 +90,11 @@ describe("Sudoku", () => {
 
     const _sudoku = ISudoku.from(sudoku)
 
-    const sudokuResult = (await zkApp.results.get(_sudoku.hash())).value
+    const sudokuResult = await zkApp.results.get(_sudoku.hash())
 
-    const solvedBy = sudokuResult
+    assert(sudokuResult.isSome, "Has result")
+
+    const solvedBy = sudokuResult.value
 
     console.log("solved by: " + solvedBy.toBase58())
 
