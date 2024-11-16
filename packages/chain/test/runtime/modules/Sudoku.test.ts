@@ -73,11 +73,9 @@ describe("Sudoku", () => {
     }
 
     await checkStatus()
+    let curRes = await zkApp.results.get(ISudoku.from(sudoku).hash())
 
-    assert(
-      !(await zkApp.results.get(ISudoku.from(sudoku).hash())).value.isEmpty(),
-      "failed as expected"
-    )
+    assert(!curRes.isSome, "failed as expected")
   })
 
   it("should submit correct solution", async () => {
