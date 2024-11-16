@@ -51,7 +51,9 @@ describe("Sudoku", () => {
   const checkStatus = async (tag = "status:") => {
     const solvedBy = await zkApp.results.get(ISudoku.from(sudoku).hash())
 
-    console.log(tag, "is Solved=", solvedBy.value.toBase58())
+    if (solvedBy.isSome) {
+      console.log(tag, "is Solved=", solvedBy.value.toBase58())
+    }
   }
 
   it("submit wrong solution", async () => {
@@ -99,6 +101,7 @@ describe("Sudoku", () => {
     console.log("solved by: " + solvedBy.toBase58())
 
     // assert(sudokuResult, "the sudoku is solved")
+    console.log("sender:", sender.toBase58())
 
     assert(solvedBy.equals(sender), "checked solver")
   })
