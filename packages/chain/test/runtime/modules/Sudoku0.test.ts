@@ -45,7 +45,7 @@ describe("Sudoku", () => {
     const resolvedInMemorySigner = appChain.resolve("Signer") as InMemorySigner
     resolvedInMemorySigner.config = { signer }
 
-    zkApp = appChain.runtime.resolve("Sudoku")
+    zkApp = appChain.runtime.resolve("Sudoku0")
   })
 
   it("should update", async () => {
