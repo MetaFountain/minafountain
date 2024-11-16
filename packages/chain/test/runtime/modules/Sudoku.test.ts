@@ -48,17 +48,6 @@ describe("Sudoku", () => {
     zkApp = appChain.runtime.resolve("Sudoku")
   })
 
-  it("should update", async () => {
-    const tx = await appChain.transaction(sender, async () => {
-      zkApp.update(ISudoku.from(sudoku))
-    })
-
-    await tx.sign()
-    await tx.send()
-
-    checkStatus()
-  })
-
   const checkStatus = async (tag = "status:") => {}
 
   it("submit wrong solution", async () => {
@@ -82,7 +71,7 @@ describe("Sudoku", () => {
     await checkStatus()
 
     assert(
-      !(await zkApp.isSolved.get()).value.toBoolean(),
+      !(await zkApp.results.get(ISudoku.from(sudoku).hash())).value.isEmpty(),
       "failed as expected"
     )
   })
@@ -97,18 +86,15 @@ describe("Sudoku", () => {
 
     await checkStatus()
 
-    const isSolved = (await zkApp.isSolved.get()).value
+    const _sudoku = ISudoku.from(sudoku)
 
-    assert(isSolved.equals(true), "the sudoku is solved")
+    const sudokuResult = (await zkApp.results.get(_sudoku.hash())).value
 
-    const solvedBy = (await zkApp.solvedBy.get()).value
+    assert(!sudokuResult.isEmpty(), "the sudoku is solved")
+
+    const solvedBy = sudokuResult
 
     console.log("solved by: " + solvedBy.toBase58())
-
-    assert(
-      await (await zkApp.isSolved.get()).value.toBoolean(),
-      "submitted solution"
-    )
 
     assert(solvedBy.equals(sender), "checked solver")
   })

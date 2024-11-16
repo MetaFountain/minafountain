@@ -7,7 +7,7 @@ import {
   PublicKey,
   UInt32,
 } from "o1js"
-import { Sudoku, ISudoku } from "../../../src/runtime/modules/sudoku"
+import { Sudoku, ISudoku } from "../../../src/runtime/modules/sudoku0"
 import { cloneSudoku, generateSudoku, solveSudoku } from "./Sudoku-lib.js"
 
 import { InMemorySigner } from "@proto-kit/sdk"
