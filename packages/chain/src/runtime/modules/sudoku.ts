@@ -5,7 +5,7 @@ import {
   state,
 } from "@proto-kit/module"
 
-import { State, assert } from "@proto-kit/protocol"
+import { State, StateMap, assert } from "@proto-kit/protocol"
 import { Balance, Balances as BaseBalances, TokenId } from "@proto-kit/library"
 import { Field, Provable, Struct, Bool, Poseidon, PublicKey } from "o1js"
 
@@ -23,18 +23,10 @@ export class ISudoku extends Struct({
 
 @runtimeModule()
 export class Sudoku extends RuntimeModule<Record<any, never>> {
-  @state() public sudokuHash = State.from<Field>(Field)
-  @state() public isSolved = State.from<Bool>(Bool)
-  @state() public solvedBy = State.from<PublicKey>(PublicKey)
+  @state() public results = StateMap.from(Field, PublicKey)
 
   public constructor() {
     super()
-  }
-
-  @runtimeMethod()
-  public async update(sudokuInstance: ISudoku): Promise<void> {
-    await this.isSolved.set(Bool(false))
-    await this.sudokuHash.set(sudokuInstance.hash())
   }
 
   @runtimeMethod()
@@ -95,19 +87,11 @@ export class Sudoku extends RuntimeModule<Record<any, never>> {
       }
     }
 
-    let sudokuHash = (await this.sudokuHash.get()).value
+    const curWinner = await this.results.get(sudokuInstance.hash())
 
-    assert(
-      sudokuHash.equals(sudokuInstance.hash()),
-      "sudoku matches the one committed on-chain"
-    )
-    // sudokuHash.assertEquals(
-    //   sudokuInstance.hash(),
-    //   "sudoku matches the one committed on-chain"
-    // )
+    assert(curWinner.value.isEmpty(), "the same solution not submitted twice")
 
-    await this.isSolved.set(Bool(true))
-    await this.solvedBy.set(this.transaction.sender.value)
+    await this.results.set(sudokuInstance.hash(), this.transaction.sender.value)
 
     function divmod(k: number, n: number) {
       let q = Math.floor(k / n)

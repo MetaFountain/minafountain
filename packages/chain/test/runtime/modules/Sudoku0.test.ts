@@ -59,7 +59,12 @@ describe("Sudoku", () => {
     checkStatus()
   })
 
-  const checkStatus = async (tag = "status:") => {}
+  const checkStatus = async (tag = "status:") => {
+    const sudokuHash = (await zkApp.sudokuHash.get()).value
+    console.log("sudokuhash", sudokuHash.toString())
+    const status = await zkApp.isSolved.get()
+    console.log(tag, "is Solved=", status.value.toString())
+  }
 
   it("submit wrong solution", async () => {
     const wrongSolution = await cloneSudoku(solution)
