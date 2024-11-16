@@ -48,7 +48,11 @@ describe("Sudoku", () => {
     zkApp = appChain.runtime.resolve("Sudoku")
   })
 
-  const checkStatus = async (tag = "status:") => {}
+  const checkStatus = async (tag = "status:") => {
+    const solvedBy = await zkApp.results.get(ISudoku.from(sudoku).hash())
+
+    console.log(tag, "is Solved=", solvedBy.value.toBase58())
+  }
 
   it("submit wrong solution", async () => {
     const wrongSolution = await cloneSudoku(solution)
