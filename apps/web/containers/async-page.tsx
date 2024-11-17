@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Faucet } from "@/components/faucet";
 import { useFaucet } from "@/lib/stores/balances";
 import { useWalletStore } from "@/lib/stores/wallet";

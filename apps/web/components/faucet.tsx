@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
