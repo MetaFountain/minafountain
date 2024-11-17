@@ -17,7 +17,7 @@ let initialSudokuGrid = [
 ];
 
 
-initialSudokuGrid = generateSudoku(0.1)
+initialSudokuGrid = generateSudoku(0.5)
 
 
 export default function Home() {
