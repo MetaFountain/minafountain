@@ -6,6 +6,12 @@ interface SudokuProps {
   initialGrid: (number | string)[][]; // 2D array with numbers or empty strings
 }
 
+
+const submitSudoku = (sudoku: (number | string)[][])=>{
+  console.log("submit", sudoku)
+   alert("Validation coming soon!")
+}
+
 const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
   const [grid, setGrid] = useState<(number | string)[][]>([]);
 
@@ -47,7 +53,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
       </div>
       <button
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={() => alert("Validation coming soon!")}
+        onClick={() => submitSudoku(grid)}
       >
         Check Sudoku
       </button>
