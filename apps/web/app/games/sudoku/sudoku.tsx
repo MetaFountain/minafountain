@@ -10,9 +10,14 @@ const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
   const [grid, setGrid] = useState<(number | string)[][]>([]);
 
   // Initialize grid on component mount
-  useEffect(() => {
-    setGrid(initialGrid);
+   useEffect(() => {
+    // Replace all `0`s in the grid with `""` to ensure empty cells
+    const sanitizedGrid = initialGrid.map((row) =>
+      row.map((cell) => (cell === 0 ? "" : cell))
+    );
+    setGrid(sanitizedGrid);
   }, [initialGrid]);
+
 
   const handleChange = (row: number, col: number, value: string) => {
     if (value === "" || (/^[1-9]$/.test(value) && value.length === 1)) {
