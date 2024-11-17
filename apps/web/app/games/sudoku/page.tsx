@@ -2,7 +2,9 @@
 
 import Sudoku from "./sudoku";
 
-const initialSudokuGrid = [
+import {generateSudoku} from "./Sudoku-lib"
+
+let initialSudokuGrid = [
   [5, 3, "", "", 7, "", "", "", ""],
   [6, "", "", 1, 9, 5, "", "", ""],
   ["", 9, 8, "", "", "", "", 6, ""],
@@ -13,6 +15,10 @@ const initialSudokuGrid = [
   ["", "", "", 4, 1, 9, "", "", 5],
   ["", "", "", "", 8, "", "", 7, 9],
 ];
+
+
+initialSudokuGrid = generateSudoku(0.1)
+
 
 export default function Home() {
   return (
