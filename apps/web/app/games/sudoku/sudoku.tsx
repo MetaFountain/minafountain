@@ -15,11 +15,10 @@ interface SudokuProps {
 type ISudokuClient = (number | string)[][]
 
 
-const submitSudoku = async (puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
+const submitSudoku = async (wallet: any, puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
   console.log("submit", sudoku)
   //  alert("Validation coming soon!")
 
-  const wallet = useWalletStore();
 
   const dApp: ISudokuApp = client.runtime.resolve("Sudoku")
 
@@ -61,6 +60,9 @@ const submitSudoku = async (puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
 const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
   const [grid, setGrid] = useState<(number | string)[][]>([]);
 
+  const wallet = useWalletStore();
+
+
   // Initialize grid on component mount
    useEffect(() => {
     // Replace all `0`s in the grid with `""` to ensure empty cells
@@ -99,7 +101,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
       </div>
       <button
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={async () => await submitSudoku(initialGrid,grid)}
+        onClick={async () => await submitSudoku(wallet,initialGrid,grid)}
       >
         Check Sudoku
       </button>
