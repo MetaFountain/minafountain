@@ -4,7 +4,9 @@ import { useWalletStore } from "@/lib/stores/wallet";
 import assert from "assert";
 import { client } from "chain";
 import { ISudoku , Sudoku as ISudokuApp} from "chain/dist/runtime/modules/sudoku";
+import { PublicKey } from "o1js";
 import { useEffect, useState } from "react";
+
 
 interface SudokuProps {
   initialGrid: (number | string)[][]; // 2D array with numbers or empty strings
@@ -15,7 +17,7 @@ type ISudokuClient = (number | string)[][]
 
 const submitSudoku = async (puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
   console.log("submit", sudoku)
-   alert("Validation coming soon!")
+  //  alert("Validation coming soon!")
 
   const wallet = useWalletStore();
 
@@ -26,16 +28,33 @@ const submitSudoku = async (puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
   const _sudoku = ISudoku.from(sudoku as any)
 
 
-  await dApp.submitSolution(
-    _puzzle,
-   _sudoku,
-  )
+
+  const sender = PublicKey.fromBase58(wallet.wallet || '');
+
+  console.log("Sender", sender)
+
+  let tx = await client.transaction(sender, async () => {
+      await dApp.submitSolution(
+        _puzzle,
+      _sudoku,
+      )
+  });
+
+  await tx.sign()
+  await tx.send()
+
+  // wallet.addPendingTransaction(tx);
+
+
+  // await tx.sign();
+  // await tx.send();
+
   
   const sudokuResult = await dApp.results.get(_puzzle.hash())
 
   assert(sudokuResult.isSome, "Has result")
 
-  
+
 
 }
 

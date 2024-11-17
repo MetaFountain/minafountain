@@ -16,7 +16,7 @@ let initialSudokuGrid = [
   ["", "", "", "", 8, "", "", 7, 9],
 ];
 
-initialSudokuGrid = generateSudoku(0.1)
+initialSudokuGrid = generateSudoku(0.01)
 
 
 export default function Home() {
