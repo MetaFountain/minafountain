@@ -53,6 +53,15 @@ const submitSudoku = async (wallet: any, puzzle:ISudokuClient,sudoku:ISudokuClie
 
   assert(sudokuResult.isSome, "Has result")
 
+  const solvedBy = sudokuResult.value
+
+  console.log("solved by: " + solvedBy.toBase58())
+
+  // assert(sudokuResult, "the sudoku is solved")
+  console.log("sender:", sender.toBase58())
+
+  // assert(solvedBy.equals(sender), "checked solver")
+
 
 
 }
