@@ -1,3 +1,5 @@
+"use client"
+
 import Sudoku from "./sudoku";
 
 const initialSudokuGrid = [
