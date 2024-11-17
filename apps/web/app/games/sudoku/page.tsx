@@ -16,7 +16,6 @@ let initialSudokuGrid = [
   ["", "", "", "", 8, "", "", 7, 9],
 ];
 
-
 initialSudokuGrid = generateSudoku(0.1)
 
 

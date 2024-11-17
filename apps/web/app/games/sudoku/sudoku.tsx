@@ -1,15 +1,42 @@
 'use client'
 
+import { useWalletStore } from "@/lib/stores/wallet";
+import assert from "assert";
+import { client } from "chain";
+import { ISudoku , Sudoku as ISudokuApp} from "chain/dist/runtime/modules/sudoku";
 import { useEffect, useState } from "react";
 
 interface SudokuProps {
   initialGrid: (number | string)[][]; // 2D array with numbers or empty strings
 }
 
+type ISudokuClient = (number | string)[][]
 
-const submitSudoku = (sudoku: (number | string)[][])=>{
+
+const submitSudoku = async (puzzle:ISudokuClient,sudoku:ISudokuClient )=>{
   console.log("submit", sudoku)
    alert("Validation coming soon!")
+
+  const wallet = useWalletStore();
+
+  const dApp: ISudokuApp = client.runtime.resolve("Sudoku")
+
+
+  const _puzzle = ISudoku.from(puzzle as any)
+  const _sudoku = ISudoku.from(sudoku as any)
+
+
+  await dApp.submitSolution(
+    _puzzle,
+   _sudoku,
+  )
+  
+  const sudokuResult = await dApp.results.get(_puzzle.hash())
+
+  assert(sudokuResult.isSome, "Has result")
+
+  
+
 }
 
 const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
@@ -53,7 +80,7 @@ const Sudoku: React.FC<SudokuProps> = ({ initialGrid }) => {
       </div>
       <button
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        onClick={() => submitSudoku(grid)}
+        onClick={async () => await submitSudoku(initialGrid,grid)}
       >
         Check Sudoku
       </button>
